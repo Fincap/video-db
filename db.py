@@ -1,3 +1,4 @@
+import logging
 from sqlite3 import Connection
 
 import tabledef
@@ -21,10 +22,12 @@ class DatabaseController:
         # Check if the tables exist. If not, create them.
         table_names = self.get_table_names()
         if 'videos' not in table_names:
+            logging.info("Table not found: videos. Creating table.")
             with self.connection:
                 self.connection.execute(tabledef.TABLE_VIDEOS)
 
         if 'tags' not in table_names:
+            logging.info("Table not found: tags. Creating table.")
             with self.connection:
                 self.connection.execute(tabledef.TABLE_TAGS)
 
