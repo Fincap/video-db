@@ -11,6 +11,10 @@ class DatabaseController:
         self.validate_tables()
 
     def validate_tables(self) -> None:
+        # Enforce foreign keys
+        with self.connection:
+            self.connection.execute("PRAGMA foreign_keys=1;")
+
         # Check if the tables exist. If not, create them.
         table_names = self.get_table_names()
         if 'videos' not in table_names:
@@ -26,11 +30,11 @@ class DatabaseController:
     # ADD DATA #
     def add_new_video(self, video_id: int, url: str, title: str) -> None:
         with self.connection:
-            self.connection.execute("INSERT INTO videos VALUES (?, ?, ?)", (video_id, url, title))
+            self.connection.execute("INSERT INTO videos VALUES (?, ?, ?);", (video_id, url, title))
 
     def add_tag(self, video_id: int, tag_text: str) -> None:
         with self.connection:
-            self.connection.execute("INSTERT INTO tags VALUES (?, ?)", (video_id, tag_text))
+            self.connection.execute("INSERT INTO tags VALUES (?, ?);", (video_id, tag_text))
 
     # RETRIEVE DATA #
     def get_table_names(self) -> list:
@@ -44,7 +48,7 @@ class DatabaseController:
     def get_videos(self) -> list:
         results = []
         with self.connection:
-            for row in self.connection.execute("SELECT * FROM videos"):
+            for row in self.connection.execute("SELECT * FROM videos;"):
                 results.append(row)
 
         return results
@@ -52,7 +56,7 @@ class DatabaseController:
     def get_tags(self, video_id: int) -> list:
         results = []
         with self.connection:
-            for row in self.connection.execute("SELECT * FROM tags WHERE video_id = ?", video_id):
+            for row in self.connection.execute("SELECT * FROM tags WHERE video_id = ?;", (video_id,)):
                 results.append(row)
 
         return results
