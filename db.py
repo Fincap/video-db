@@ -48,3 +48,11 @@ class DatabaseController:
                 results.append(row)
 
         return results
+
+    def get_tags(self, video_id: int) -> list:
+        results = []
+        with self.connection:
+            for row in self.connection.execute("SELECT * FROM tags WHERE video_id = ?", video_id):
+                results.append(row)
+
+        return results
