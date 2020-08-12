@@ -43,7 +43,7 @@ class DatabaseController:
         results = []
         with self.connection:
             for row in self.connection.execute("SELECT name FROM sqlite_master WHERE type='table';"):
-                results.append(row)
+                results.append(row[0])  # [0] necessary otherwise the name will be stored as a tuple instead of str
 
         return results
 
