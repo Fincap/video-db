@@ -10,14 +10,6 @@ class DatabaseController:
         self.connection = connection
         self.validate_tables()
 
-    def get_table_names(self) -> list:
-        results = self.connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = []
-        for name in results:
-            tables.append(name[0])
-
-        return tables
-
     def validate_tables(self) -> None:
         # Check if the tables exist. If not, create them.
         table_names = self.get_table_names()
@@ -31,5 +23,28 @@ class DatabaseController:
             with self.connection:
                 self.connection.execute(tabledef.TABLE_TAGS)
 
-    def add_new_video(self, video_id: int, url: str, title: str):
-        pass
+    # ADD DATA #
+    def add_new_video(self, video_id: int, url: str, title: str) -> None:
+        with self.connection:
+            self.connection.execute("INSERT INTO videos VALUES (?, ?, ?)", (video_id, url, title))
+
+    def add_tag(self, video_id: int, tag_text: str) -> None:
+        with self.connection:
+            self.connection.execute("INSTERT INTO tags VALUES (?, ?)", (video_id, tag_text))
+
+    # RETRIEVE DATA #
+    def get_table_names(self) -> list:
+        results = self.connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = []
+        for name in results:
+            tables.append(name[0])
+
+        return tables
+
+    def get_videos(self) -> list:
+        results = []
+        with self.connection:
+            for row in self.connection.execute("SELECT * FROM videos"):
+                results.append(row)
+
+        return results
