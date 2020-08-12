@@ -34,12 +34,12 @@ class DatabaseController:
 
     # RETRIEVE DATA #
     def get_table_names(self) -> list:
-        results = self.connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = []
-        for name in results:
-            tables.append(name[0])
+        results = []
+        with self.connection:
+            for row in self.connection.execute("SELECT name FROM sqlite_master WHERE type='table';"):
+                results.append(row)
 
-        return tables
+        return results
 
     def get_videos(self) -> list:
         results = []
