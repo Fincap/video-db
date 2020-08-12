@@ -1,5 +1,5 @@
 import logging
-from sqlite3 import Connection
+from sqlite3 import Connection, Row
 
 import tabledef
 
@@ -8,6 +8,7 @@ class DatabaseController:
 
     def __init__(self, connection: Connection) -> None:
         self.connection = connection
+        self.connection.row_factory = Row
         self.validate_tables()
 
     def validate_tables(self) -> None:
@@ -43,7 +44,7 @@ class DatabaseController:
         results = []
         with self.connection:
             for row in self.connection.execute("SELECT name FROM sqlite_master WHERE type='table';"):
-                results.append(row[0])  # [0] necessary otherwise the name will be stored as a tuple instead of str
+                results.append(row["name"])
 
         return results
 
