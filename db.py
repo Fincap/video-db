@@ -50,7 +50,7 @@ class DatabaseController:
     def get_video_by_id(self, video_id):
         with self.connection:
             video = self.connection.execute("SELECT * FROM videos WHERE video_id = ?;",
-                                    (video_id,))
+                                    (video_id,)).fetchone()
 
         return video
 
