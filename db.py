@@ -30,11 +30,13 @@ class DatabaseController:
     # ADD DATA #
     def add_new_video(self, video_id: int, url: str, title: str) -> None:
         with self.connection:
-            self.connection.execute("INSERT INTO videos VALUES (?, ?, ?);", (video_id, url, title))
+            self.connection.execute("INSERT INTO videos (video_id, url, title) VALUES (?, ?, ?);",
+                                    (video_id, url, title))
 
     def add_tag(self, video_id: int, tag_text: str) -> None:
         with self.connection:
-            self.connection.execute("INSERT INTO tags VALUES (?, ?);", (video_id, tag_text))
+            self.connection.execute("INSERT INTO tags (video_id, tag_text) VALUES (?, ?);",
+                                    (video_id, tag_text))
 
     # RETRIEVE DATA #
     def get_table_names(self) -> list:
@@ -56,7 +58,8 @@ class DatabaseController:
     def get_tags(self, video_id: int) -> list:
         results = []
         with self.connection:
-            for row in self.connection.execute("SELECT * FROM tags WHERE video_id = ?;", (video_id,)):
+            for row in self.connection.execute("SELECT * FROM tags WHERE video_id = ?;",
+                                               (video_id,)):
                 results.append(row)
 
         return results
