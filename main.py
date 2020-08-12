@@ -2,7 +2,7 @@ import logging
 import sqlite3
 
 from db import DatabaseController
-from objects import generate_videos_list, generate_video
+from videofunc import generate_videos_list, generate_video
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
