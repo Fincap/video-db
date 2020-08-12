@@ -47,6 +47,13 @@ class DatabaseController:
 
         return results
 
+    def get_video_by_id(self, video_id):
+        with self.connection:
+            video = self.connection.execute("SELECT * FROM videos WHERE video_id = ?;",
+                                    (video_id,))
+
+        return video
+
     def get_videos(self) -> list:
         results = []
         with self.connection:
