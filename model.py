@@ -10,3 +10,18 @@ class Manager:
     def __init__(self, db_controller: DatabaseController):
         self.db_controller = db_controller
         self.video_objects = generate_videos_list(self.db_controller)
+
+    def add_video(self):
+        pass
+
+    def add_tag(self):
+        pass
+
+    def update_video(self):
+        pass
+
+    def delete_video(self):
+        pass
+
+    def delete_tag(self):
+        pass

@@ -12,6 +12,12 @@ class Video:
     def __str__(self) -> str:
         return "%s: %s (%s), %s" % (self.video_id, self.title, self.url, self.tags)
 
+    def add_tag(self, tag_text: str) -> None:
+        pass
+
+    def remove_tag(self, tag_text: str) -> None:
+        pass
+
 
 def generate_videos_list(controller: DatabaseController) -> list:
     videos = []
