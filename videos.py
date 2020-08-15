@@ -3,7 +3,7 @@ from db import DatabaseController
 
 class Video:
 
-    def __init__(self, video_id: int, url: str, title: str, tags:list) -> None:
+    def __init__(self, video_id: int, url: str, title: str, tags: list = []) -> None:
         self.video_id = video_id
         self.url = url
         self.title = title
@@ -13,20 +13,20 @@ class Video:
         return "%s: %s (%s), %s" % (self.video_id, self.title, self.url, self.tags)
 
     def add_tag(self, tag_text: str) -> None:
-        pass
+        self.tags.append(tag_text)
 
     def remove_tag(self, tag_text: str) -> None:
-        pass
+        self.tags.remove(tag_text)
 
 
-def generate_videos_list(controller: DatabaseController) -> list:
-    videos = []
+def generate_videos_list(controller: DatabaseController) -> dict:
+    videos = {}
 
     video_tuples = controller.get_videos()
     for video_tuple in video_tuples:
-        new_video_id = video_tuple[0]
+        new_video_id = video_tuple["video_id"]
 
-        videos.append(generate_video(controller, new_video_id))
+        videos[new_video_id] = generate_video(controller, new_video_id)
 
     return videos
 

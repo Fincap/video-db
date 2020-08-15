@@ -1,5 +1,5 @@
 from db import DatabaseController
-from videos import generate_videos_list
+from videos import generate_videos_list, Video
 
 
 class Manager:
@@ -10,30 +10,38 @@ class Manager:
     def __init__(self, db_controller: DatabaseController):
         self.db_controller = db_controller
         self.video_objects = generate_videos_list(self.db_controller)
-        self.used_ids = self.get_used_ids()
 
-    def get_used_ids(self) -> set:
-        ids = set()
-        for video in self.video_objects:
-            ids.add(video.video_id)
+    def get_new_id(self) -> int:
+        used_ids = set(self.video_objects.keys())
+        universe = set(range(len(used_ids) + 2))
+        return min(universe - used_ids)
 
-        return ids
+    def get_video(self, video_id: int) -> Video:
+        return self.video_objects[video_id]
 
-    def get_new_id(self):
-        universe = set(range(1, len(self.used_ids) + 2))
-        return min(universe - self.used_ids)
+    def add_video(self, url: str, title: str, tags: list = []) -> None:
+        new_video_id = self.get_new_id()
+        new_video = Video(new_video_id, url, title, tags)
 
-    def add_video(self):
-        pass
+        self.db_controller.add_new_video(new_video_id, url, title)
 
-    def add_tag(self):
-        pass
+        for tag_text in tags:
+            self.add_tag(new_video_id, tag_text)
+
+        self.video_objects[new_video_id] = new_video
+
+    def add_tag(self, video_id: int, tag_text: str) -> None:
+        self.db_controller.add_tag(video_id, tag_text)
+        self.video_objects[video_id].add_tag(tag_text)
 
     def update_video(self):
         pass
 
-    def delete_video(self):
-        pass
+    def delete_video(self, video_id: int) -> None:
+        self.db_controller.delete_video_by_id(video_id)
 
-    def delete_tag(self):
-        pass
+        del self.video_objects[video_id]
+
+    def delete_tag(self, video_id: int, tag_text: str) -> None:
+        self.db_controller.delete_tag(video_id, tag_text)
+        self.video_objects[video_id].remove_tag(tag_text)
