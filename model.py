@@ -31,11 +31,10 @@ class Manager:
         new_video = Video(new_video_id, url, title, tags)
 
         self.db_controller.add_new_video(new_video_id, url, title)
+        self.video_objects[new_video_id] = new_video
 
         for tag_text in tags:
             self.add_tags(new_video_id, tag_text)
-
-        self.video_objects[new_video_id] = new_video
 
     def add_tags(self, video_id: int, tags: list) -> None:
         for tag in tags:

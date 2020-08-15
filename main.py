@@ -6,7 +6,7 @@ from PyQt5 import QtWidgets
 
 from db import DatabaseController
 from model import Manager
-from view import MainWindow
+from view.mainwindow import MainWindow
 
 
 def main_cli():
