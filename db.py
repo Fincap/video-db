@@ -71,3 +71,14 @@ class DatabaseController:
                 results.append(row)
 
         return results
+
+    # DELETE DATA #
+    def delete_video_by_id(self, video_id: int) -> None:
+        with self.connection:
+            self.connection.execute("DELETE FROM videos WHERE video_id = ?",
+                                    (video_id,))
+
+    def delete_tag(self, video_id: int, tag_text: str) -> None:
+        with self.connection:
+            self.connection.execute("DELETE FROM tags WHERE video_id = ? AND tag_text = ?",
+                                    (video_id, tag_text))
