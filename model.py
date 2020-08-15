@@ -26,13 +26,14 @@ class Manager:
         self.db_controller.add_new_video(new_video_id, url, title)
 
         for tag_text in tags:
-            self.add_tag(new_video_id, tag_text)
+            self.add_tags(new_video_id, tag_text)
 
         self.video_objects[new_video_id] = new_video
 
-    def add_tag(self, video_id: int, tag_text: str) -> None:
-        self.db_controller.add_tag(video_id, tag_text)
-        self.video_objects[video_id].add_tag(tag_text)
+    def add_tags(self, video_id: int, tags: list) -> None:
+        for tag in tags:
+            self.db_controller.add_tag(video_id, tag)
+            self.video_objects[video_id].add_tag(tag)
 
     def update_video(self):
         pass

@@ -3,7 +3,6 @@ import sqlite3
 
 from db import DatabaseController
 from model import Manager
-from videos import generate_videos_list, generate_video
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
@@ -12,28 +11,25 @@ if __name__ == '__main__':
     database_controller = DatabaseController(conn)
     print("Tables:", database_controller.get_table_names())
 
-    print("Videos:")
-    for video_id, video in generate_videos_list(database_controller).items():
-        print(video)
-
     manager = Manager(database_controller)
 
     running = True
     while running:
-        print(manager.get_new_id())
-        command = input("Enter your command:\n >").split()
+        print("\n\n\nUnused ID: ", manager.get_new_id())
+        for video_id, video in manager.video_objects.items():
+            print(video)
+
+        command = input("\nEnter your command:\n >").split()
 
         if command[0] == "add":
             if command[1] == "video":
                 try:
-                    manager.add_video(command[2], command[3])
+                    title = ' '.join(command[3:])
+                    manager.add_video(command[2], title)
                 except:
                     print("Unable to execute command. Check your arguments.")
-            if command[1] == "tag":
-                try:
-                    manager.add_tag(int(command[2]), command[3])
-                except:
-                    print("Unable to execute command. Check your arguments.")
+            if command[1] == "tags":
+                manager.add_tags(int(command[2]), command[3:])
 
         if command[0] == "get":
             if command[1] == "video":
@@ -51,13 +47,10 @@ if __name__ == '__main__':
 
         if command[0] == "delete":
             if command[1] == "video":
-                try:
-                    database_controller.delete_video_by_id(int(command[2]))
-                except:
-                    print("Unable to execute command. Check your arguments.")
+                manager.delete_video(int(command[2]))
             if command[1] == "tag":
                 try:
-                    database_controller.delete_tag(int(command[2]), command[3])
+                    manager.delete_tag(int(command[2]), command[3])
                 except:
                     print("Unable to execute command. Check your arguments.")
 
