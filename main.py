@@ -1,13 +1,16 @@
 import logging
 import sqlite3
+import sys
+
+from PyQt5 import QtWidgets
 
 from db import DatabaseController
 from model import Manager
+from view import MainWindow
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
 
-    conn = sqlite3.connect("data/tables.db")
+def main_cli():
+    conn = sqlite3.connect("data/tables.vdb")
     database_controller = DatabaseController(conn)
     print("Tables:", database_controller.get_table_names())
 
@@ -58,3 +61,24 @@ if __name__ == '__main__':
             running = False
 
     conn.close()
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+
+    # On some configurations error traceback is not being displayed when the program crashes. This is a workaround.
+    sys._excepthook = sys.excepthook
+
+
+    def exception_hook(exctype, value, traceback):
+        print(exctype, value, traceback)
+        sys._excepthook(exctype, value, traceback)
+        sys.exit(1)
+
+
+    sys.excepthook = exception_hook
+
+    app = QtWidgets.QApplication(sys.argv)
+    main_window = MainWindow()
+    main_window.show()
+    sys.exit(app.exec_())

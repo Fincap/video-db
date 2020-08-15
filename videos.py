@@ -1,9 +1,12 @@
+from PyQt5 import QtWidgets
+
 from db import DatabaseController
 
 
-class Video:
+class Video(QtWidgets.QListWidgetItem):
 
     def __init__(self, video_id: int, url: str, title: str, tags: list = []) -> None:
+        super().__init__(title)
         self.video_id = video_id
         self.url = url
         self.title = title

@@ -19,6 +19,13 @@ class Manager:
     def get_video(self, video_id: int) -> Video:
         return self.video_objects[video_id]
 
+    def get_all_videos(self) -> list:
+        videos = []
+        for video_id, video in self.video_objects.items():
+            videos.append(video)
+
+        return videos
+
     def add_video(self, url: str, title: str, tags: list = []) -> None:
         new_video_id = self.get_new_id()
         new_video = Video(new_video_id, url, title, tags)
