@@ -4,8 +4,8 @@ import sys
 
 from PyQt5 import QtWidgets
 
-from db import DatabaseController
-from model import Manager
+from model.db import DatabaseController
+from model.manager import Manager
 from view.mainwindow import MainWindow
 
 

@@ -1,5 +1,5 @@
-from db import DatabaseController
-from videos import generate_videos_list, Video
+from model.db import DatabaseController
+from model.videos import generate_videos_list, Video
 
 
 class Manager:

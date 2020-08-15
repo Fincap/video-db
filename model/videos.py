@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 
-from db import DatabaseController
+from model.db import DatabaseController
 
 
 class Video(QtWidgets.QListWidgetItem):

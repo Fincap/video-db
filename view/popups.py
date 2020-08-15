@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore
 
-from model import Manager
+from model.manager import Manager
 
 
 class AddVideoWindow(QtWidgets.QDialog):

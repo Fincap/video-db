@@ -3,9 +3,9 @@ import sqlite3
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import Qt
 
-from db import DatabaseController
-from model import Manager
-from videos import Video
+from model.db import DatabaseController
+from model.manager import Manager
+from model.videos import Video
 from view.popups import AddVideoWindow
 
 

@@ -1,7 +1,7 @@
 import logging
 from sqlite3 import Connection, Row
 
-import tabledef
+from model import tabledef
 
 
 class DatabaseController:
