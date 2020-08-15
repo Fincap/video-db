@@ -32,16 +32,17 @@ class Manager:
 
     def add_tags(self, video_id: int, tags: list) -> None:
         for tag in tags:
-            self.db_controller.add_tag(video_id, tag)
-            self.video_objects[video_id].add_tag(tag)
+            if tag not in self.video_objects[video_id].tags:
+                self.db_controller.add_tag(video_id, tag)
+                self.video_objects[video_id].add_tag(tag)
 
     def update_video(self):
         pass
 
     def delete_video(self, video_id: int) -> None:
-        self.db_controller.delete_video_by_id(video_id)
-
-        del self.video_objects[video_id]
+        if video_id in self.video_objects.keys():
+            self.db_controller.delete_video_by_id(video_id)
+            del self.video_objects[video_id]
 
     def delete_tag(self, video_id: int, tag_text: str) -> None:
         self.db_controller.delete_tag(video_id, tag_text)
